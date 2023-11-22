@@ -20,7 +20,6 @@ function rendreMonnaie($montant) {
     $somme = array_sum($rendu);
     return $rendu;
 }
-
 ?>
 <form method="post" action="">
     <label>Montant à rendre :</label>
@@ -29,10 +28,18 @@ function rendreMonnaie($montant) {
 </form>
 
 <?php
+
     $montant = isset($_POST["montant"]) ? intval($_POST["montant"]) : 0;
     $resultat = rendreMonnaie($montant);
+    $somme = array_sum($resultat);
 
-    if (!empty($resultat)) {
+    
+    //cas exceptionelle
+    if ($somme != $montant) {
+        echo "Impossible de rendre la monnaie exacte.";
+    }
+   
+    if ((!empty($resultat))&&($somme=$montant)) {
         echo "Combinaison minimale de billets à rendre pour $montant : " . implode(',', $resultat);
     }
 
